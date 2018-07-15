@@ -20,13 +20,4 @@
  *  Using Either
  * Example
  *
- * Applicative
- *  Fantasyland definition
- *  Law
- *  Array as Applicative
- *  Example
- *  implementation of map using ap
- *  ap method implementation for Array, Maybe
- *  A naive implementation of fetch-and-transform
- *
  */

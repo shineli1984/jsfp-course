@@ -12,4 +12,13 @@ Either.prototype.map = function(f) {
   })
 }
 
+Either.of = Either.Right
+
+Either.prototype.ap = function(e) {
+  return this.cata({
+    Left: Either.Left,
+    Right: f => e.map(f)
+  })
+}
+
 export default Either

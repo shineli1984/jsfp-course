@@ -13,4 +13,22 @@ Promise.prototype.map = function(f) {
   )
 }
 
+Promise.of = function(x) {
+  return new Promise(function(resolve) {
+    return resolve(x)
+  })
+}
+
+Promise.prototype.ap = function(p) {
+  const promise = this
+
+  return new Promise(resolve =>
+    promise.fork(f =>
+      p.fork(a => {
+        resolve(f(a))
+      })
+    )
+  )
+}
+
 export default Promise

@@ -42,16 +42,14 @@ Maybe.prototype.chain = function(ka) {
   })
 }
 
-
-// Applicative
-Maybe.of = Maybe.Just
 Maybe.prototype.ap = function(m) {
   return this.cata({
     Nothing: () => Maybe.Nothing,
-    Just: f => m.map(x => f(x))
+    Just: f => m.map(f)
   })
 }
 
+Maybe.of = Maybe.Just
 
 export default Maybe
 

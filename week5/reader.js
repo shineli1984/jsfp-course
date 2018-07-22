@@ -1,7 +1,7 @@
 import {always, identity} from 'ramda'
 import daggy from 'daggy'
 
-const Reader = daggy.tagged('Promise', ['run'])
+const Reader = daggy.tagged('Reader', ['run'])
 
 Reader.ask = Reader(identity)
 Reader.of = a => Reader(always(a))

@@ -46,7 +46,10 @@ mapIndexed((val, idx) => "<div key=" + idx + ">" + idx + "</div>", [1, 2, 3]);
      output: [<div key="name">John</div>, <div key="age">20</div>]
 ############################################################################ */
 var transforma = (num, key, obj) => "<div key=" + "key" + ">" + num + "</div>";
-R.values(R.mapObjIndexed(transforma, { name: "John", age: 20 }));
+R.compose(
+  R.values,
+  R.mapObjIndexed(transforma)
+)({ name: "John", age: 20 });
 
 /* #########################################################################
  Task5:
@@ -84,20 +87,17 @@ const task6_tasks = {
 };
 const activities = [{ taskId: 6441 }, { taskId: 289 }];
 
-const findBytaskId = data => id => {
-  return R.compose(
+const findBytaskId = data => id =>
+  R.compose(
     Maybe.fromNullable,
     R.find(R.propEq("id", id))
   )(data);
-};
 
 console.log(
-  R.compose(
-    R.map(
-      R.compose(
-        findBytaskId(task6_tasks.tasks),
-        R.prop("taskId")
-      )
+  R.map(
+    R.compose(
+      findBytaskId(task6_tasks.tasks),
+      R.prop("taskId")
     )
   )(activities)
 );

@@ -93,14 +93,12 @@ const findBytaskId = data => id =>
     R.find(R.propEq("id", id))
   )(data);
 
-console.log(
-  R.map(
-    R.compose(
-      findBytaskId(task6_tasks.tasks),
-      R.prop("taskId")
-    )
-  )(activities)
-);
+R.map(
+  R.compose(
+    findBytaskId(task6_tasks.tasks),
+    R.prop("taskId")
+  )
+)(activities);
 
 /* #########################################################################
  Task7:
@@ -118,34 +116,74 @@ R.compose(
   score => +score
 )(task7_payload.payloadString);
 
-// given:
-// const n = 2
-// produce:
-// [{score: 2}, {score: 1}]
+/* #########################################################################
+ Task 8 :
+      input: const n = 2
+      output: [{score: 2}, {score: 1}]
+############################################################################ */
+const f = n => (n <= 0 ? false : [R.objOf("score")(n), n - 1]);
+R.unfold(f, 2);
+
+/* #########################################################################
+ Task 9:
+      input: {noise: '/factory/1/noise', temperature: '/factory/1/temperature'}
+      output: {'/factory/1/noise': [], '/factory/1/temperature': []}
+############################################################################ */
+
+R.zipObj(R.values(input), R.repeat([], 2));
 
 // {noise: '/factory/1/noise', temperature: '/factory/1/temperature'}
 // to {'/factory/1/noise': [], '/factory/1/temperature': []}
 
-// given:
-//
-// {showDialog: false, buttonDisabled: false, slides: []}
-// {showDialog: true, buttonDisabled: true, slides: [{id: 1, name: 'programming'}]}
-//
-// produce:
-// {showDialog: false, buttonDisabled: false, slides: [{id: 1, name: 'programming'}]}
+/* #########################################################################
+ Task 10:
+   input:
+   {showDialog: false, buttonDisabled: false, slides: []}
+   {showDialog: true, buttonDisabled: true, slides: [{id: 1, name: 'programming'}]}
 
-// {connecting: true, connected: false}
-// to {connecting: false, connected: true}
+   output:
+   {showDialog: false, buttonDisabled: false, slides: [{id: 1, name: 'programming'}]}
+############################################################################ */
+// skip
 
-// given:
-// const sensorNames = ['noise', 'temperature']
-// const sensorValues = [20, 30]
-// const airQualitySensorData = {airQuality: 40}
-// produce:
-// {noise: 20, temperature: 30, airQuality: 40}
+/* #########################################################################
+ Task 11:
+   input: {connecting: true, connected: false}
+   output: {connecting: false, connected: true}
+############################################################################ */
 
-// [{qa: true}, {qa: null}, {qa: true}, {qa: null}]
-// to [{qa: true}, {qa: true}, {qa: true}, {qa: null}]
+R.evolve({
+  connecting: R.not,
+  connected: R.not
+})(input);
+
+/* #########################################################################
+ Task 12:
+  input:
+  const sensorNames = ['noise', 'temperature']
+  const sensorValues = [20, 30]
+  const airQualitySensorData = {airQuality: 40}
+
+  output:
+  {noise: 20, temperature: 30, airQuality: 40}
+
+############################################################################ */
+R.compose(
+  R.merge(R.__, airQualitySensorData),
+  R.zipObj(sensorNames)
+)(sensorValues);
+
+/* #########################################################################
+ Task 13:
+
+   input:
+    [{qa: true}, {qa: null}, {qa: true}, {qa: null}]
+   output:
+    [{qa: true}, {qa: true}, {qa: true}, {qa: null}
+############################################################################ */
+R.ap(R.flip(R.adjust(R.assoc("qa", true))), R.findIndex(R.propEq("qa", null)))(
+  input
+);
 
 // given:
 // const ts = [{temperature: 32}, {temperature: 50}, {temperature: 113}]
@@ -162,5 +200,9 @@ R.compose(
 // produce:
 // [0, 10, 45]
 
-// [1, null, undefined, '', [], 2]
-// to [1, 2]
+/* #########################################################################
+  Task 14:
+  input: R.reject(R.either(R.isNil, R.isEmpty)(input)
+  output: [1,2]
+############################################################################ */
+R.reject(R.either(R.isNil, R.isEmpty))(input);

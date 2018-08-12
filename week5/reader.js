@@ -17,3 +17,4 @@ Reader.prototype.chain = function(f) {
 };
 
 export default Reader
+

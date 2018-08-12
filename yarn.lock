@@ -636,6 +636,10 @@ core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
+daggy@0.0.x:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/daggy/-/daggy-0.0.1.tgz#ae9c932c9f7136e655a04afb21e8baadfd0d3707"
+
 daggy@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/daggy/-/daggy-1.2.0.tgz#f0151fcffd58f1742d63d8c53a7556e84b258cb4"
@@ -698,6 +702,17 @@ extglob@^0.3.1:
   resolved "https://registry.yarnpkg.com/extglob/-/extglob-0.3.2.tgz#2e18ff3d2f49ab2765cec9023f011daa8d8349a1"
   dependencies:
     is-extglob "^1.0.0"
+
+"fantasy-land@git+https://github.com/fantasyland/fantasy-land.git":
+  version "3.5.0"
+  resolved "git+https://github.com/fantasyland/fantasy-land.git#d876f40f6f98dda00b7b5ee6a09f47bf79acd96b"
+
+fantasy-tuples@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/fantasy-tuples/-/fantasy-tuples-1.0.0.tgz#1b407e993bdc8131218473080691c7327fe63fbb"
+  dependencies:
+    daggy "0.0.x"
+    fantasy-land "git+https://github.com/fantasyland/fantasy-land.git"
 
 filename-regex@^2.0.0:
   version "2.0.1"

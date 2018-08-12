@@ -7,6 +7,7 @@
     "babel-cli": "^6.26.0",
     "babel-preset-latest": "^6.24.1",
     "daggy": "^1.2.0",
+    "fantasy-tuples": "^1.0.0",
     "isomorphic-fetch": "^2.2.1",
     "ramda": "^0.25.0"
   }

@@ -20,15 +20,25 @@ Promise.of = function(x) {
 }
 
 Promise.prototype.ap = function(p) {
+  let f = null
+  let y = null
   const promise = this
 
-  return new Promise(resolve =>
-    promise.fork(f =>
-      p.fork(a => {
-        resolve(f(a))
-      })
-    )
-  )
+  return new Promise(resolve => {
+    promise.fork(fn => {
+      f = fn
+      if (y) {
+        resolve(f(y))
+      }
+    })
+
+    p.fork(a => {
+      y = a
+      if (f) {
+        resolve(f(y))
+      }
+    })
+  })
 }
 
 export default Promise

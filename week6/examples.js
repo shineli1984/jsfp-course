@@ -114,48 +114,48 @@ import fetchJson from '../week2/fetchJson'
 // })
 
 
-// now we are adding StateT into the mix
-import StateT from './stateT'
-const StateTPromise = StateT(Promise)
-const Mts = EitherT(StateTPromise)
-
-// getPokemon3 :: Int -> StateTPromise AppState (Promise (Either Error Pokemon))
-const getPokemon3 = id =>
-  chain(
-    ({url}) =>
-      StateTPromise.lift(
-        fetchJson(`${url}/${id}/`)
-      )
-  )(StateTPromise.get) // instead of State.get we now have StateTPromise.get. StateT provides methods that State monad has
-
-const moves3 = compose(
-  map(compose( // because we are in Mts, which is the most higher level/layer, we just need a single map here.
-    map(take(5)), // also, please note here we are using exactly the same code to get the first 5 moves
-    safeProp('moves')
-  )),
-  Mts, // again, because Promise (Either Error Pokemon) has a Either at most inside layer, we can use Mts constructor here
-  getPokemon3
-)(1)
-
-moves3
-  .run
-  .run({url: 'http://pokeapi.co/api/v2/pokemon'})
-  // ._1 // because we are use transformer, the tuple is embedded into the inner layer, so we don't need the _1 here
-  .fork(e => {
-    e._1.cata({
-      // please note that when run the transform layers, it's the order when we define the type.
-      // But we after we run the transformer, we now have layers reversed
-      // that is State Either instead of Either State.
-      // This is again because Transformers always reach into the most inner layer of Monad
-      // which means the most outer layer refers to the most inner layer being a particular type.
-      Left: x => console.log('Error: ', x.message),
-      Right: x => {
-        x.cata({
-          Just: x => console.log('First 5 moves: ', x),
-          Nothing: _ => console.log('No moves')
-        })
-      }
-    })
-
-    console.log('state: ', e._2)
-  })
+// // now we are adding StateT into the mix
+// import StateT from './stateT'
+// const StateTPromise = StateT(Promise)
+// const Mts = EitherT(StateTPromise)
+//
+// // getPokemon3 :: Int -> StateTPromise AppState (Promise (Either Error Pokemon))
+// const getPokemon3 = id =>
+//   chain(
+//     ({url}) =>
+//       StateTPromise.lift(
+//         fetchJson(`${url}/${id}/`)
+//       )
+//   )(StateTPromise.get) // instead of State.get we now have StateTPromise.get. StateT provides methods that State monad has
+//
+// const moves3 = compose(
+//   map(compose( // because we are in Mts, which is the most higher level/layer, we just need a single map here.
+//     map(take(5)), // also, please note here we are using exactly the same code to get the first 5 moves
+//     safeProp('moves')
+//   )),
+//   Mts, // again, because Promise (Either Error Pokemon) has a Either at most inside layer, we can use Mts constructor here
+//   getPokemon3
+// )(1)
+//
+// moves3
+//   .run
+//   .run({url: 'http://pokeapi.co/api/v2/pokemon'})
+//   // ._1 // because we are use transformer, the tuple is embedded into the inner layer, so we don't need the _1 here
+//   .fork(e => {
+//     e._1.cata({
+//       // please note that when run the transform layers, it's the order when we define the type.
+//       // But we after we run the transformer, we now have layers reversed
+//       // that is State Either instead of Either State.
+//       // This is again because Transformers always reach into the most inner layer of Monad
+//       // which means the most outer layer refers to the most inner layer being a particular type.
+//       Left: x => console.log('Error: ', x.message),
+//       Right: x => {
+//         x.cata({
+//           Just: x => console.log('First 5 moves: ', x),
+//           Nothing: _ => console.log('No moves')
+//         })
+//       }
+//     })
+//
+//     console.log('state: ', e._2)
+//   })

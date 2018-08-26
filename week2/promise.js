@@ -41,4 +41,15 @@ Promise.prototype.ap = function(p) {
   })
 }
 
+Promise.prototype.chain = function(f) {
+  const self = this
+  return new Promise(resolve => {
+    self.fork(x => {
+      f(x).fork(y => {
+        resolve(y)
+      })
+    })
+  })
+}
+
 export default Promise

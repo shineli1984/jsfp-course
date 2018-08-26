@@ -21,4 +21,11 @@ Either.prototype.ap = function(e) {
   })
 }
 
+Either.prototype.fold = function(f, g) {
+  return this.cata({
+    Left: f,
+    Right: g
+  });
+};
+
 export default Either

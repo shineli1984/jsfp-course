@@ -15,7 +15,7 @@ After being proficient of using Ramda, one will be ready to dive into more advan
 Here is the path to mastering Ramda:
 - Arguments order
 - Curry
-- Fixed concret type
+- Fixed concrete type
 - Fixed number of arguments
 - Partial and total functions
 - Composition
